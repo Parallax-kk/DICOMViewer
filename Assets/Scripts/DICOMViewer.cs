@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class DICOMViewer : MonoBehaviour
 {
     [SerializeField]
-    private GameObject m_OpenPanel = null;
-
-    [SerializeField]
     private TMP_InputField m_ImputField = null;
 
     [SerializeField]
@@ -38,6 +35,8 @@ public class DICOMViewer : MonoBehaviour
     [SerializeField]
     private Scrollbar m_MaxZScrollbar = null;
 
+    [SerializeField]
+    private Scrollbar m_IntensityScrollbar = null;
 
     private Vector3 m_DefaultPosition = new Vector3();
 
@@ -51,6 +50,7 @@ public class DICOMViewer : MonoBehaviour
         m_MaxYScrollbar.value = m_VolumeRenderer.sharedMaterial.GetFloat("_MaxY");
         m_MinZScrollbar.value = m_VolumeRenderer.sharedMaterial.GetFloat("_MinZ");
         m_MaxZScrollbar.value = m_VolumeRenderer.sharedMaterial.GetFloat("_MaxZ");
+        m_IntensityScrollbar.value = m_VolumeRenderer.sharedMaterial.GetFloat("_Intensity");
 
         m_DefaultPosition = transform.position;
         m_DefaultQuaternion = transform.rotation;
@@ -64,6 +64,7 @@ public class DICOMViewer : MonoBehaviour
         m_VolumeRenderer.sharedMaterial.SetFloat("_MaxY", m_MaxYScrollbar.value);
         m_VolumeRenderer.sharedMaterial.SetFloat("_MinZ", m_MinZScrollbar.value);
         m_VolumeRenderer.sharedMaterial.SetFloat("_MaxZ", m_MaxZScrollbar.value);
+        m_VolumeRenderer.sharedMaterial.SetFloat("_Intensity", m_IntensityScrollbar.value);
 
         if (string.IsNullOrEmpty(m_ImputField.text))
         {
@@ -78,14 +79,17 @@ public class DICOMViewer : MonoBehaviour
         {
             transform.position = m_DefaultPosition;
             transform.rotation = m_DefaultQuaternion;
+            m_MinXScrollbar.value = 0.0f;
+            m_MaxXScrollbar.value = 1.0f;
+            m_MinYScrollbar.value = 0.0f;
+            m_MaxYScrollbar.value = 1.0f;
+            m_MinZScrollbar.value = 0.0f;
+            m_MaxZScrollbar.value = 1.0f;
+            m_IntensityScrollbar.value = 0.5f;
+                
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            m_OpenPanel.SetActive(true);
-        }
-
-        if (Input.GetMouseButton(0) && !m_OpenPanel.activeSelf)
+        if (Input.GetMouseButton(0))
         {
             transform.Rotate(new Vector3(Input.GetAxis("Mouse Y") * -5.0f, 0, Input.GetAxis("Mouse X") * 5.0f));
         }
@@ -99,7 +103,6 @@ public class DICOMViewer : MonoBehaviour
             if (m_Texture3D != null)
             {
                 m_VolumeRenderer.sharedMaterial.SetTexture("_Volume", m_Texture3D);
-                m_OpenPanel.SetActive(false);
             }
             else
             {
