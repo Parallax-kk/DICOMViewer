@@ -1156,6 +1156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MoveStep: 0.1
+  m_EnableMouseRotate: 0
 --- !u!1 &966388234
 GameObject:
   m_ObjectHideFlags: 0

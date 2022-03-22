@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
@@ -36,7 +35,8 @@ public class CameraController : MonoBehaviour
             transform.position += transform.right * m_MoveStep;
         }
 
-        transform.position += transform.forward * Input.mouseScrollDelta.y * m_MoveStep;
+        if (!EventSystem.current.IsPointerOverGameObject())
+            transform.position += transform.forward * Input.mouseScrollDelta.y * m_MoveStep;
 
         if (Input.GetKeyDown(KeyCode.R))
         {
