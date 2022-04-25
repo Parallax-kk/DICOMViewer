@@ -19,6 +19,12 @@ public class DICOMViewer : MonoBehaviour
     private Texture3D m_Texture3D = null;
 
     [SerializeField]
+    private Texture2D[] m_arrayTexture2D = null;
+
+    [SerializeField]
+    private GameObject m_SlicePanelPrefab = null;
+
+    [SerializeField]
     private Scrollbar m_MinXScrollbar = null;
     
     [SerializeField]
@@ -42,7 +48,10 @@ public class DICOMViewer : MonoBehaviour
     private Vector3 m_DefaultPosition = new Vector3();
 
     private Quaternion m_DefaultQuaternion = Quaternion.identity;
-    
+
+    [SerializeField]
+    private bool m_isCreate2DTexture = false;
+
     private void Awake()
     {
         m_MinXScrollbar.value = m_VolumeRenderer.sharedMaterial.GetFloat("_MinX");
@@ -97,18 +106,33 @@ public class DICOMViewer : MonoBehaviour
     }
     public void OpenDICOM()
     {
+        var sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
         if (!string.IsNullOrEmpty(m_ImputField.text))
         {
-            m_Texture3D = DICOMReader.ReadDICOM(m_ImputField.text);
+            (m_Texture3D, m_arrayTexture2D) = DICOMReader.ReadDICOM(m_ImputField.text);
 
-            if (m_Texture3D != null)
+            if (m_Texture3D != null && m_arrayTexture2D != null && m_arrayTexture2D.Length > 0)
             {
                 m_VolumeRenderer.sharedMaterial.SetTexture("_Volume", m_Texture3D);
+
+                if (m_isCreate2DTexture)
+                {
+                    float step = 0.0f;
+                    foreach (var tex in m_arrayTexture2D)
+                    {
+                        GameObject slice = Instantiate(m_SlicePanelPrefab, new Vector3(0, 0, step), Quaternion.identity);
+                        slice.GetComponent<Renderer>().material.mainTexture = tex;
+                        step += 0.01f;
+                    }
+                }
             }
             else
             {
                 Debug.LogError("File can't open.");
             }
         }
+        sw.Stop();
+        Debug.Log(sw.ElapsedMilliseconds);
     }
 }

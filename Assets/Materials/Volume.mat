@@ -73,7 +73,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Intensity: 0.1
+    - _Intensity: 0.20680206
     - _Iteration: 1000
     - _MaxX: 1
     - _MaxY: 1
