@@ -43,5 +43,14 @@ public class CameraController : MonoBehaviour
             transform.position = m_DefaultPosition;
             transform.rotation = m_DefaultQuaternion;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();//ゲームプレイ終了
+#endif
+        }
     }
 }
