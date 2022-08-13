@@ -1,5 +1,7 @@
 # DICOMViewer
 
+<img src=https://user-images.githubusercontent.com/23093982/184497979-8c52470a-6bc1-4334-a582-16b928e451c9.png width=500>
+
 ## 概要
 UnityでDICOMファイルを閲覧するアプリケーションです。
 
