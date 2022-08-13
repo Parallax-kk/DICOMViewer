@@ -106,8 +106,6 @@ public class DICOMViewer : MonoBehaviour
     }
     public void OpenDICOM()
     {
-        var sw = new System.Diagnostics.Stopwatch();
-        sw.Start();
         if (!string.IsNullOrEmpty(m_ImputField.text))
         {
             (m_Texture3D, m_arrayTexture2D) = DICOMReader.ReadDICOM(m_ImputField.text);
@@ -132,7 +130,5 @@ public class DICOMViewer : MonoBehaviour
                 Debug.LogError("File can't open.");
             }
         }
-        sw.Stop();
-        Debug.Log(sw.ElapsedMilliseconds);
     }
 }
